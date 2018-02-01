@@ -5,3 +5,9 @@ describe("hw1", () => {
     expect(stars(1)).toEqual(['*'])
   })
 })
+
+describe("hw1", () => {
+  test("should return correct answer when n = 3", () => {
+    expect(stars(3)).toEqual(['*', '**', '***'])
+  })
+})
