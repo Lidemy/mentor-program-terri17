@@ -1,0 +1,258 @@
+<!doctype html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>title</title>
+		<style>
+			body{
+				padding:0px;
+				margin:0px;
+			}
+			
+			header{
+				position:relative;
+				background-color:#343a40;
+				height:50px;
+				color:#647880;
+				box-sizing:border-box;
+			}
+			
+			.logo{
+				display:inline-block;
+				position:absolute;
+				font-size:20px;
+				color:white;
+				box-sizing:border-box;
+				padding:10px 15px;
+				width:90px;
+			}
+					
+			.otherPage{
+				display:inline-block;
+				position:absolute;
+				padding:15px;
+				width:60px;
+				box-sizing:border-box;
+			}
+			
+			#otherPage1{
+				left:90px;
+			}
+			
+			#otherPage2{
+				left:150px;
+			}
+			
+			span.otherPage:hover{
+				color:white;
+				cursor:pointer; 
+			}
+			
+			@media screen and (min-width:900px) {
+				#hello{
+					position:relative;
+					background-color:#e9ecef;
+					height:270px;
+					box-sizing:border-box;
+				}
+				
+				#hello article{
+					background-color:#e9ecef;
+					width:900px;
+					margin:auto;
+					font-size:16px;
+				}
+				
+
+				p#helloWorld{
+					position:relative;
+					font-size:72px;
+					padding-top:30px;
+					margin:0px; 
+				}
+				
+				.learnMore{
+					width:170px;
+					height:50px;
+					background-color:#007bff;
+					padding-top:10px;
+					font-size:24px;
+				}
+				
+				.learnMore:hover{
+					background-color:blue;
+					cursor:pointer; 
+				}
+				
+				section{
+					background-color:white;
+					width:900px;
+					margin:auto;
+				}
+				
+				section article{
+					width:300px;
+					padding-right:10px;
+					box-sizing:border-box;
+					float:left;				
+					height:320px;
+					border-bottom-style:ridge;
+					border-bottom-color:white;
+				}
+				
+				.heading {
+					font-size:36px;
+					margin:0px;
+					padding:50px 0px 10px 0px;
+					box-sizing:border-box;
+				}
+				
+				.viewDetails{
+					width:130px;
+					height:40px;
+					background-color:#6c757d;
+					padding-top:10px;
+				}
+
+				.viewDetails, .learnMore{
+					text-align:center;
+					border-radius:5px;
+					color:white;	
+					box-sizing:border-box;				
+				}
+				
+				.viewDetails:hover{
+					background-color:#666;
+					cursor:pointer;				
+				}
+				
+				.clearFix{
+					clear:both;
+				}
+				
+				footer p{
+					width:900px;
+					padding-top:20px;
+					margin:auto;
+				}
+			}
+			
+			@media screen and (max-width:899px){ 
+				#hello{
+					position:relative;
+					background-color:#e9ecef;
+					box-sizing:border-box;
+				}
+				
+				#hello article{
+					background-color:#e9ecef;
+					font-size:16px;
+				}
+				
+				p#helloWorld{
+					position:relative;
+					font-size:72px;
+					padding-top:30px;
+					margin:0px; 
+				}
+				
+				.learnMore{
+					width:170px;
+					height:50px;
+					background-color:#007bff;
+					padding-top:10px;
+					font-size:24px;
+				}
+				
+				.learnMore:hover{
+					background-color:blue;
+					cursor:pointer; 
+				}
+				
+				section{
+					background-color:white;
+					margin:auto;
+				}
+				
+				section article{
+					padding-right:10px;
+					box-sizing:border-box;
+					height:320px;
+				}
+				
+				.heading {
+					font-size:36px;
+					margin:0px;
+					padding:50px 0px 10px 0px;
+					box-sizing:border-box;
+				}
+				
+				.viewDetails{
+					width:130px;
+					height:40px;
+					background-color:#6c757d;
+					padding-top:10px;
+				}
+
+				.viewDetails, .learnMore{
+					text-align:center;
+					border-radius:5px;
+					color:white;	
+					box-sizing:border-box;				
+				}
+				
+				.viewDetails:hover{
+					background-color:#666;
+					cursor:pointer;				
+				}
+				
+			
+				footer p{
+					padding-top:20px;
+				}
+			}
+			
+			
+		</style>
+	</head>
+	
+	<body>
+		<header>
+			<span class=logo>Navbar </span><span class=otherPage id=otherPage1>Home</span> <span class=otherPage id=otherPage2>Link</span> 
+		</header>
+		
+		<div id=hello>
+			<article>
+				<p id=helloWorld>Hello, world!</p>
+				<p>This is a template for a simple marketing or informational website. It includes a large callout called a jumbotron and three supporting pieces of content. Use it as a starting point to create something more unique.</p>
+				<p class=learnMore>Learn more >></p>
+			</article>
+		</div>
+		
+		<section>
+			<article>
+				<p class=heading>Heading</p>
+				<p>Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui.</p>
+				<p class=viewDetails>View details >></p>
+			</article>
+
+			<article>
+				<p class=heading>Heading</p>
+				<p>Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui.</p>
+				<p class=viewDetails>View details >></p>
+			</article>
+
+			<article>
+				<p class=heading>Heading</p>
+				<p>Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui.</p>
+				<p class=viewDetails>View details >></p>
+			</article>		
+		</section>
+
+		<div class=clearFix></div>
+		
+		<footer>
+			<p>&copy; Company 2017-2018 </p>
+		</footer>	
+	</body>
+</html>
