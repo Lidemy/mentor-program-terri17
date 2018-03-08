@@ -1,0 +1,118 @@
+<!doctype html>
+<html>
+	<head>
+		<meta charset="utf-8"/>
+		<!--<link rel=stylesheet type="text/css"href="style.css">-->
+		<!--<script src="script.js" ></script>-->
+		<style>
+			body{
+				background-color:black;
+			}
+			
+			article{
+				width:850px;
+				margin-left:auto;
+				margin-right:auto;	
+				background-color:gray;				
+			}
+			
+			.box{
+				margin:20px;
+				width:240px;
+				height:180px;
+				display:inline-block;
+				background-color:black;				
+				
+			}
+			
+			.figure img {
+				width:240px;
+				height:100px;	
+			}
+			
+			
+			.belowLeft, .belowLeft img{
+				padding:5px;
+				width:55px;
+				height:55px;
+				display:inline-block;
+				border-radius:50%;	//圖片切成圓形
+			}			
+
+			.belowRight{
+				width:155px;
+				height:55px;
+				display:inline-block;
+				color:white;
+				font-size:75%;
+			}							
+			
+		</style>
+	</head>
+	<body>
+		<article>
+			<div class=box>
+				<a>
+					<div class=figure><img /></div>
+					<div class=below>
+						<div class=belowLeft><img /></div>
+						<div class=belowRight>
+							<span class=status>status</span></br></br>
+							<span class=name>name</span>
+						</div>	
+					</div>
+				</a>
+			</div>
+		</article>
+
+		
+		<script>
+			document.addEventListener("DOMContentLoaded", ()=> {
+				var resp;
+				
+				getResponseFromAPI(function(resp){
+					console.log(resp);
+					for (var i=0; i<20;i++){	//只要20個，因此寫20，而非resp.length
+						
+						if (i==0){
+							appendBox(resp,i);
+						}	
+						else if (i>0) { 
+							var copyBox = document.querySelector(".box").cloneNode(true); //指到box，複製box和他的child nodes
+							appendBox(resp,i);
+							document.querySelector("article").appendChild(copyBox); //增加新的box到後面
+							
+						}
+					}
+				})
+			})
+			
+	
+				function getResponseFromAPI(callback){
+					var request = new XMLHttpRequest();	//是XML不是HML
+					request.open("GET","https://api.twitch.tv/kraken/streams/?game=League%20of%20Legends",true);
+					request.setRequestHeader("Accept","application/vnd.twitchtv.v5+json");
+					request.setRequestHeader("Client-ID", "ll1chxpyt6m2x5y9ogfp72agffedbu"); 
+					request.onload = function () { //回呼函式
+						if (request.status >= 200 && request.status < 400){ 
+							resp = JSON.parse(request.responseText);
+							callback(resp);
+						}
+					}
+					request.send();			
+				}
+				
+				function appendBox (resp,n) {
+
+					var box = document.querySelector(".box"); 		
+
+					box.firstElementChild.firstElementChild.firstElementChild.setAttribute('src', resp.streams[n].preview.medium);
+					box.firstElementChild.lastElementChild.firstElementChild.firstElementChild.setAttribute('src', resp.streams[n].channel.logo);
+					box.firstElementChild.lastElementChild.lastElementChild.firstElementChild.innerText = resp.streams[n].channel.status;
+					box.firstElementChild.lastElementChild.lastElementChild.lastElementChild.innerText = resp.streams[n].channel.display_name;
+					box.firstElementChild.setAttribute('href', resp.streams[n].channel.url);
+				}					
+				
+		</script>
+	</body>
+</html>
