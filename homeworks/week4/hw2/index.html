@@ -1,0 +1,178 @@
+<!doctype html>
+<html>
+	<head>
+		<meta charset="utf-8"/>
+		<style>
+			body{
+				padding:0px;
+				margin:0px;
+			}
+			.up{
+				background-color:black;
+				box-sizing: border-box;
+				height:200px;
+				padding:0px;
+				margin:0px;
+			}
+			
+			.down{
+				background-color:gray;
+				box-sizing: border-box;
+				padding:0px;
+				margin:0px;
+			}
+			
+			article{
+				background-color:white;
+				box-sizing: border-box;
+				position:relative;
+				top:-100px;
+				width:500px;
+				padding:20px;
+				margin:auto;
+			}
+			
+			.email,.nic,.typ,.exp,.oth{
+				padding:20px 5px;
+			}
+			
+			.sub{
+				cursor:pointer;
+			}
+			
+			.warning{
+				color:red;
+			}
+			
+		</style>
+		
+	</head>
+
+	<body>
+		<div class=up> </div>
+		<div class=down> 
+			<article>
+				<p>從零到一：程式導師實驗計畫報名表單</p>
+				<p>詳情請參考：<a href="https://medium.com/@hulitw/mentor-program-b5f96ae1eed1?">https://medium.com/@hulitw/mentor-program-b5f96ae1eed1? </a> </p>
+					記得填完表單之後還要寫信報名才算成功，兩者缺一不可！</p>
+				<p>*必填</p>
+				
+				<form>
+					<div class=ema>電子郵件地址*
+						<div>
+							<input type=email class=email name="email"/>
+							<div class=warning></div>
+						</div>
+					</div>
+					
+					<div class=nic>暱稱 *</br>
+						該怎麼稱呼你</br>
+						<div>
+							<input type="text" class=nickname name="nickname"/>
+							<div class=warning></div>
+						</div>
+					</div>
+						
+					<div class=typ>報名類型*
+						<div>
+							<input type="radio" class=type1 name="type" value="a"/>工程師培養班（每週付出四十小時，從零培養到工程師，學費是一個月薪水）</input></br>
+							<input type="radio" class=type2 name="type" value="b">業餘班（依照個人目標訂立學習計畫，學費一萬五千元</input>
+							<div class=warning></div>
+						</div>
+					</div>
+					
+					<div class=exp>是否有程式相關背景？ *</br>
+						<div>範例：無、高中時候學過C++、學過一點網頁前端、目前在資策會上課...</br>
+							<input type="textarea" class=experience name="experience" rows="2" cols="20"/></br>
+							<div class=warning></div>
+						</div>
+					</div>
+						
+					<div class=oth>其他</br>
+						<p>其他任何你想講的</p>
+						<input type="textarea" class="other" name="comment" rows="2" cols="20"/> </br>
+					</div>
+					
+					<input class=sub type=submit />
+				</form>
+			</article>		
+		</div>
+			<script> 
+			//警告之後重新填寫，無法消除紅色
+			//沒辦法點到按鈕二
+			var ema=document.querySelector(".ema");
+			var nic=document.querySelector(".nic");
+			var exp=document.querySelector(".exp");			
+			var typ=document.querySelector(".typ");	
+			var typename;
+			var condition=[];
+
+			document.addEventListener("DOMContentLoaded", function(){			
+				document.querySelector("form").addEventListener("submit", function(e){	//e 處理多個事件	
+						e.preventDefault();				
+										
+					// check email
+						if (document.querySelector(".email").value==""){
+							error(ema)
+							condition[0]="0";
+						}else{
+							correctError(ema);
+							condition[0]="1";
+						}
+						
+					// check nickname;
+						if (document.querySelector(".nickname").value==""){
+							error(nic)
+							condition[1]="0";
+						}else{
+							correctError(nic);
+							condition[1]="1";
+						}
+						
+					// check type
+						if (document.querySelector(".type1").checked){
+							typename="工程師培養班";
+							correctError(typ);
+							condition[2]="1";
+						}
+						if (document.querySelector(".type2").checked){
+							typename="業餘班";
+							correctError(typ);
+							condition[2]="1";
+						}
+						if (!document.querySelector(".type1").checked && !document.querySelector(".type2").checked){
+							error(typ);	
+							condition[2]="0";
+						}
+					
+					// check experience;
+						if (document.querySelector(".experience").value==""){
+							error(exp)
+							condition[3]="0";
+						}else{
+							correctError(exp);
+							condition[3]="1";
+						}
+					
+					function error(x){
+						e.preventDefault();
+						x.style.backgroundColor="pink";							
+						x.lastElementChild.lastElementChild.innerHTML="這是必填問題";
+					}			
+					
+					function correctError(x){
+						x.style.backgroundColor="white";							
+						x.lastElementChild.lastElementChild.innerHTML="";
+					}
+
+						if (condition.toString()=="1,1,1,1"){
+							var print = [document.querySelector(".email").value,document.querySelector(".nickname").value,typename,document.querySelector(".experience").value,document.querySelector(".other").value]
+							alert(print);
+						}
+					
+				})
+			})
+											
+		</script>
+	</body>
+</html>
