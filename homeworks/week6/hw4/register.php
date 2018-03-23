@@ -18,42 +18,27 @@
 		if (!empty($username) && !empty($password) && !empty($nickname)){
 			
 			//密碼加工
-			$password = password_hash("$password", PASSWORD_DEFAULT);
+			$password = password_hash($password, PASSWORD_DEFAULT);
 			
 			//確認帳號沒有重複			
-			$sql = "SELECT * FROM terri_week5hw3 WHERE username =".$username;
+			$sql = "SELECT * FROM terri_member WHERE username =".$username;
 			$result_sql=mysqli_query($dbc,$sql);
 			if (mysqli_num_rows($result_sql) ==0){
 
 				//確認暱稱沒有重複後
-				$name = "SELECT * FROM terri_week5hw3 WHERE nickname =".$nickname;
+				$name = "SELECT * FROM terri_member WHERE nickname =".$nickname;
 				$result_name=mysqli_query($dbc,$name);
 				if (mysqli_num_rows($result_name) ==0){
 
-					//加入表單中，防止SQL注入
-					$stmt= $dbc->prepare("INSERT INTO terri_week5hw3 (username,password,nickname) VALUES (?,?,?)");
-					$stmt->bind_param('sss',$username,$password,$nickname);
-					$stmt->execute();
-					$stmt->get_result();
-				
-/* 舊版				
 					//加入表單中
-					$put="INSERT INTO terri_week5hw3 (username,password,nickname) VALUES ('$username','$password','$nickname')";
+					$put="INSERT INTO terri_member (username,password,nickname) VALUES ('$username','$password','$nickname')";
 					mysqli_query($dbc,$put);
-*/
-					//設置cookie + 防止SQL注入
-					$pass_id=uniqid('',TRUE);
-					$stmt= $dbc->prepare("INSERT INTO terri_week6hw3 (id,username) VALUES (?,?)");
-					$stmt->bind_param('ss',$pass_id,$username);
-					$stmt->execute();
-					$stmt->get_result();
 
-/* 舊版				
+		
 					//設置cookie
 					$pass_id=uniqid('',TRUE);
-					$put="INSERT INTO terri_week6hw3 (id,username) VALUES ('$pass_id','$username')";
+					$put="INSERT INTO terri_cookie(id,username) VALUES ('$pass_id','$username')";
 					mysqli_query($dbc,$put);
-*/
 				
 					header("refresh:2;url=login.php");
 					echo "已成功建立帳號，請登入。網頁將自動轉向登入頁面。";
@@ -79,7 +64,7 @@
 		<form method="post" action="register.php">
 			<p>Registration Info</p>
 			username:
-			<input type="text" id=username name="username"/><br/> <!--value=<?php if (!empty($username)) echo $username; ?>-->
+			<input type="text" id=username name="username"/><br/> 
 			Password:
 			<input type="password" id=password name="password"/><br/>
 			Nickname:

@@ -1,18 +1,23 @@
 <?php
-	require_once('dbc.php');
+require_once('dbc.php');
 	
 	// 如果有cookie 
-	if(isset($_COOKIE['id'])){	
-		// cookie正確性
-		// 通行證表格和會員資料表格拼接，取得username與nickname，由於id有重複，因此改通行證id的名
-		$cookie_passid ="SELECT terri_week6hw3.id as pass_id, terri_week6hw3.username, terri_week5hw3.* ";
-		$cookie_passid.="FROM terri_week5hw3 LEFT JOIN terri_week6hw3 ";
-		$cookie_passid.="ON terri_week6hw3.username = terri_week5hw3.username";
-		$cookie_result = mysqli_query($dbc,$cookie_passid);
-		$cookie_row = mysqli_fetch_assoc($cookie_result);
-		
-		if ($cookie_row['pass_id'] === $_COOKIE['id']) {
-		
+if(isset($_COOKIE['session_id'])){
+
+/*	// cookie正確性
+	$cookie_passid ="SELECT * FROM terri_cookie";
+	$cookie_result = mysqli_query($dbc,$cookie_passid);
+	while($row=mysqli_fetch_array($cookie_result)){
+		echo $row['session_id']."</br>"; //
+		if($row['session_id'] === $_COOKIE['session_id']){
+*/
+	//通行證表格和會員資料表格拼接，取得username與nickname
+	$cookie_passid ="SELECT terri_cookie.* , terri_member.* FROM terri_cookie RIGHT JOIN terri_member ON terri_cookie.username = terri_member.username";
+	$cookie_passid= mysqli_query($dbc,$cookie_passid);
+
+	while($cookie_row = mysqli_fetch_array($cookie_passid)) {
+		if($cookie_row['session_id'] === $_COOKIE['session_id']){
+
 ?>
 <!doctype html>
 <html>
@@ -30,7 +35,7 @@
 		
 		<!--找暱稱-->
 <?php   
-			$nic = "SELECT * FROM terri_week5hw3 where username=".$cookie_row["username"];  
+			$nic = "SELECT * FROM terri_member where username=".$cookie_row["username"];  
 			$find = mysqli_query($dbc,$nic); 	
 			$find_nic=mysqli_fetch_assoc($find); 	//取得結果
 ?>		
@@ -51,7 +56,7 @@
 		<!--印出舊的主留言-->
 <?php   
 			// 看主流言總數，計算頁數
-			$sql_num = "SELECT * FROM terri_week5hw2 where parent_id=0 ORDER BY id DESC";  
+			$sql_num = "SELECT * FROM terri_message where parent_id=0 ORDER BY id DESC";  
 			$result_num=$dbc->query($sql_num);
 			$num = mysqli_num_rows($result_num);
 			
@@ -64,7 +69,7 @@
 			$page = $_GET['page'];
 			$page10=$page*10-9;	
 			
-			$stmt= $dbc->prepare("SELECT * FROM terri_week5hw2 where parent_id=0 ORDER BY id DESC LIMIT 10 OFFSET ?");
+			$stmt= $dbc->prepare("SELECT * FROM terri_message where parent_id=0 ORDER BY id DESC LIMIT 10 OFFSET ?");
 			$stmt->bind_param('i',$page10);
 			$stmt->execute();
 			$result=$stmt->get_result();
@@ -77,7 +82,7 @@
 					<div class=oldMessage_created_at><?php echo $row["created_at"]?></div>
 					<div class=oldMessage_content><?php echo $row["content"]?></div>
 
-<?php				if ($cookie_row['username']===$row["nickname"]){					
+<?php				if($cookie_row['username']===$row["nickname"]){					
 ?>					
 					<div class=delete_comment>	
 						<form method="POST" action=delete_comment.php>
@@ -102,7 +107,7 @@
 
 			<!--印出舊的子留言-->
 <?php		
-					$sql_child ="SELECT * FROM terri_week5hw2 where parent_id =".$row["id"] ;  // ."ORDER BY id" 順序!!!
+					$sql_child ="SELECT * FROM terri_message where parent_id =".$row["id"] ;  // ."ORDER BY id" 順序!!!
 					$result_child = mysqli_query($dbc,$sql_child) or die ('抓不到子留言資料');	
 			
 					if (mysqli_num_rows($result_child) > 0){ 					//取得總數
@@ -113,12 +118,13 @@
 								style="background-color:pink"
 <?php						}?>				
 												>
+												
 						<div class=oldMessage_nickname><?php echo $row_child["nickname"]?></div>
 						<div class=oldMessage_created_at><?php echo $row_child["created_at"]?></div>
 						<div class=oldMessage_content><?php echo $row_child["content"]?></div>
 
 <?php
-							if ($cookie_row['username']===$row_child["nickname"]){
+							if($cookie_row['username']===$row_child["nickname"]){
 ?>	
 								<div class=delete_comment>	
 									<form method="POST" action=delete_comment.php>
@@ -130,9 +136,9 @@
 								<div class=edit_comment>
 									<div type="button" class=edit_comment_input>修改留言▶</div>
 									<form method="POST" action=edit_comment.php>
-										<textarea name=edit_comment_content><?php echo $row["content"]?></textarea>
-										<input type="hidden" name=edit_comment_id value="<?php echo $row["id"]?>"></br>
-										<input type="submit" value="送出">
+										<textarea name=edit_comment_content><?php echo $row_child["content"]?></textarea>
+										<input type="hidden" name=edit_comment_id value="<?php echo $row_child["id"]?>"></br>
+										<input type="submit" class=button value="送出">
 									</form>
 								</div>
 						
@@ -198,12 +204,12 @@
 
 		// cookie 錯誤
 		else{
-			setcookie('id','',time()-3600);
+/*			setcookie('session_id','',time()-3600);
 			header("refresh:3;url=login.php");
-			echo "請先登入您的帳號"; 				
-		}
-		
+			echo "請先登入您的帳號"; 				*/
+		}		
 	}
+}	
 	mysqli_close($dbc);
 ?>
 

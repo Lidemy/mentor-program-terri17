@@ -5,21 +5,13 @@
 新增到資料庫，導回 index.php*/
 
 		require_once('dbc.php');
-		//防止XSS
-		$nickname=htmlspecialchars($_POST['nickname'], ENT_QUOTES, 'utf-8');
-		$comment=htmlspecialchars($_POST['comment'], ENT_QUOTES, 'utf-8');
-		$parent_id=htmlspecialchars($_POST['parent_id'], ENT_QUOTES, 'utf-8');
-
-		//防止SQL INJECTION
-		$stmt= $dbc->prepare("INSERT INTO terri_week5hw2 (`parent_id`, `nickname`, `content`, `created_at`) VALUES (?,?,?,now())");
-		$stmt->bind_param('sss',$parent_id,$nickname,$comment);
-		$stmt->execute();
-		$stmt->get_result();		
+		$parent_id=$_POST['parent_id'];
+		$nickname=$_POST['nickname'];
+		$comment=$_POST['comment'];
 		
-/*		
-		$sql="INSERT INTO terri_week5hw2 (`parent_id`, `nickname`, `content`, `created_at`) VALUES ('".$parent_id."','".$nickname."','".$comment."',now())";
+		$sql="INSERT INTO terri_message (`parent_id`, `nickname`, `content`, `created_at`) VALUES ('".$parent_id."','".$nickname."','".$comment."',now())";
 		mysqli_query($dbc,$sql) or die ("無法加入留言");
-*/		
+		
 		mysqli_close($dbc);
 		//echo "已經成功新增留言";
 		header('Location:board.php');

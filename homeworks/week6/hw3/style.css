@@ -108,6 +108,12 @@
 				width:450px;
 				height:100px;				
 				border-radius:5px;
+			}
+
+			.repliedOldMessage .edit_comment textarea{
+				width:300px;
+				height:100px;				
+				border-radius:5px;
 			}			
 			
 			.edit_comment input{
@@ -123,3 +129,4 @@
 				width:200px;
 				margin:auto;
 			}
+			
