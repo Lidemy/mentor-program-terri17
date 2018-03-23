@@ -1,0 +1,132 @@
+	
+			.newMessage,.getOldMessage{
+				position:relative;
+				padding:10px;
+				width:500px;
+				box-sizing:border-box;
+				margin:10px auto;
+				background-color:#67c7d3;
+				border-radius:5px;
+			}
+			
+			.newMessage textarea{
+				width:450px;
+				height:100px;
+				margin:auto;
+				border-radius:10px;
+				
+			}
+			.nickname, .message{
+				position:relative;
+				width:400px;
+				margin:5px auto;
+				display:inline-box;
+			}
+			
+			.message{
+				height:50px;
+			}
+			
+			.oldMessage{
+				box-sizing:border-box;
+				width:500px;
+				padding:5px;
+				background-color:#75c03a;
+				border-radius:5px;				
+				margin:5px auto; 
+			}
+			
+			.repliedOldMessage{
+				box-sizing:border-box;
+				width:390px;
+				background-color:#6bd65d;
+				border-radius:5px;
+				margin:5px 5px 5px 100px;
+			}
+			
+			.replyOldMessage{
+				box-sizing:border-box;
+				margin-left:100px;
+				width:390px;
+				background-color:#80c9fe;
+				border-color:#67c7d3;
+				border-radius:2px;
+				padding:5px;
+			}
+			
+			.replyOldMessage textarea{
+				width:380px;
+				height:100px;
+				border-radius:5px;
+			}
+			
+			.oldMessage_created_at{
+				text-align:right;
+			}
+			
+			.replyOldMessage_new:hover{
+				cursor:pointer;
+			}
+			
+			.replyOldMessage_form{
+				display:none;
+			}
+
+			.log{
+				text-align:center;
+				margin:auto;
+			}			
+			
+			.edit_comment>form{
+				display:none;
+			}
+			
+			.button{
+				width:80px;
+				height:40px;
+				background-color:#e8ecf0;
+				margin:5px;
+				font-weight:bold;
+				color:#34b2c4;
+				border-radius:5px;
+				border-color:white;
+				cursor:pointer;		
+			}
+			
+			.edit_comment{
+				padding-left:10px;
+			}
+			.edit_comment_input{
+				width:80px;
+				border-radius:2px;
+				border-color:white;
+				background-color:#e8ecf0;				
+				cursor:pointer;
+			}
+
+			.edit_comment textarea{
+				width:450px;
+				height:100px;				
+				border-radius:5px;
+			}
+
+			.repliedOldMessage .edit_comment textarea{
+				width:300px;
+				height:100px;				
+				border-radius:5px;
+			}			
+			
+			.edit_comment input{
+				color:#185a3f;
+			}
+			
+			.delete_comment input{
+				margin-left:10px;				
+				color:#185a3f;
+			}
+			
+			#page{
+				width:200px;
+				margin:auto;
+			}
+			
