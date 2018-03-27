@@ -1,0 +1,98 @@
+<html>
+	<head>
+		<meta charset="utf-8"/>
+		<!-- Bootstrap CSS -->
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" crossorigin="anonymous">
+	</head>
+	<body>
+		<div class=col-md-5>to do lists
+			<div class="input-group mb-3">
+				<div class="input-group-prepend">
+					<span class="input-group-text" id="inputGroup-sizing-default">新增代辦事項</span>
+				</div>
+				<input type="text" class="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default">
+			</div>
+			
+			<div class="print list-group">
+				<div class="list-group-item">
+					<div class="row">
+						<div class="col-sm-4">買東西</div>
+						<div class="col-sm-2 offset-md-3">
+							<button class="delete btn btn-danger">刪除</button>
+						</div>
+						<div class="col-sm-2">
+							<button class="done btn btn-success">已完成</button>
+						</div>
+					</div>
+				</div>
+
+				<div class="list-group-item">
+					<div class="row">
+						<div class="col-sm-4">煮飯</div>
+						<div class="col-sm-2 offset-md-3">
+							<button class="delete btn btn-danger">刪除</button>
+						</div>				
+						<div class="col-sm-2">
+							<button class="done btn btn-success">已完成</button>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		
+		
+		<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" crossorigin="anonymous"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" crossorigin="anonymous"></script>
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+		<script>
+			$(document).ready(function(){
+				//新增代辦事項
+				$(".form-control").keydown(function(event){	
+					if(event.key==="Enter"){
+					
+						$(".print").append("<div class='list-group-item'>","</div>");
+						$(".print").children().last().append("<div class='row'>","</div>");
+						
+						var text = "<div class='col-sm-4'>"+$("input").val() +"</div>";
+						var del_out ="<div class='col-sm-2 offset-md-3'></div>";
+						var done_out ="<div class='col-sm-2'></div>";
+						$(".print").children().last().children().last().append(text,del_out,done_out);
+						
+						$(".print").children().last().children().last().find(".offset-md-3").append("<button class='delete btn btn-danger'>刪除</button>");
+						$(".print").children().last().children().last().children().last().append("<button class='done btn btn-success'>已完成</button>");
+					}				
+				})
+
+				
+				//已經完成
+				$(document).on("click",".done",function(event){	
+					var d = event.target;
+					
+					if($(d).text()=="已完成"){ 
+						//修改classname
+						$(d).removeClass("btn-success").addClass("btn-primary");
+						//修改文字內容
+						$(d).text("尚未完成");
+						//修改底色
+						$(d).parent().parent().parent().addClass("list-group-item-success");
+					}
+					else if($(d).text()=="尚未完成"){
+						//修改classname
+						$(d).removeClass("btn-primary").addClass("btn-success");
+						//修改文字內容
+						$(d).text("已完成");
+						//修改底色
+						$(d).parent().parent().parent().removeClass("list-group-item-success");
+					}
+				})
+				
+				//刪除
+				$(document).on("click",".delete",function(event){ 	
+					var d = event.target;
+					$(d).parent().parent().parent().remove();
+				})				
+				
+			})
+		</script>
+	</body>
+</html>
