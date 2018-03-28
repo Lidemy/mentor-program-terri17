@@ -1,3 +1,24 @@
+<!--
+修正四點
+ok 1. 這邊可以用字串拼起來再一次 append 上去，會比較好懂一點
+$(".print").children().last().children().last().find(".offset-md-3").append("<button class='delete btn btn-danger'>刪除</button>");
+$(".print").children().last().children().last().children().last().append("<button class='done btn btn-success'>已完成</button>");
+	→ 一同使用字串連接方式完成
+
+ok 2.下次可以考慮取個更有意義一點的名稱 
+	var d = event.target;
+	→ 改為命名為縮寫et
+
+ok 3.下次可以不要用 text，而是用 class 或是其他東西來判斷，畢竟用中文判斷不是一個好主意
+	if($(d).text()=="已完成")
+	→ 更正為classname
+	
+ok 4. 如果不想串這麼多層 parent，其實 .parent() 裡面可以放一個 selector，例如說 $(d).parent('.list-group-item') 
+	$(d).parent().parent().parent().remove();
+	→ 使用parents()進行篩選
+-->
+
+
 <html>
 	<head>
 		<meta charset="utf-8"/>
@@ -54,42 +75,39 @@
 						$(".print").children().last().append("<div class='row'>","</div>");
 						
 						var text = "<div class='col-sm-4'>"+$("input").val() +"</div>";
-						var del_out ="<div class='col-sm-2 offset-md-3'></div>";
-						var done_out ="<div class='col-sm-2'></div>";
+						var del_out ="<div class='col-sm-2 offset-md-3'>"+"<button class='delete btn btn-danger'>刪除</button>"+"</div>";
+						var done_out ="<div class='col-sm-2'>"+"<button class='done btn btn-success'>已完成</button>"+"</div>";
 						$(".print").children().last().children().last().append(text,del_out,done_out);
-						
-						$(".print").children().last().children().last().find(".offset-md-3").append("<button class='delete btn btn-danger'>刪除</button>");
-						$(".print").children().last().children().last().children().last().append("<button class='done btn btn-success'>已完成</button>");
 					}				
 				})
 
 				
 				//已經完成
 				$(document).on("click",".done",function(event){	
-					var d = event.target;
+					var et = event.target;
 					
-					if($(d).text()=="已完成"){ 
+					if($(et).hasClass("btn-success")){ 
 						//修改classname
-						$(d).removeClass("btn-success").addClass("btn-primary");
+						$(et).removeClass("btn-success").addClass("btn-primary");
 						//修改文字內容
-						$(d).text("尚未完成");
+						$(et).text("尚未完成");
 						//修改底色
-						$(d).parent().parent().parent().addClass("list-group-item-success");
+						$(et).parents(".list-group-item").addClass("list-group-item-success");
 					}
-					else if($(d).text()=="尚未完成"){
+					else{
 						//修改classname
-						$(d).removeClass("btn-primary").addClass("btn-success");
+						$(et).removeClass("btn-primary").addClass("btn-success");
 						//修改文字內容
-						$(d).text("已完成");
+						$(et).text("已完成");
 						//修改底色
-						$(d).parent().parent().parent().removeClass("list-group-item-success");
+						$(et).parents(".list-group-item").removeClass("list-group-item-success");
 					}
 				})
 				
 				//刪除
 				$(document).on("click",".delete",function(event){ 	
-					var d = event.target;
-					$(d).parent().parent().parent().remove();
+					var et = event.target;
+					$(et).parents(".list-group-item").remove();
 				})				
 				
 			})
