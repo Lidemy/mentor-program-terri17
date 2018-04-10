@@ -1,0 +1,14 @@
+
+輸出的順序為13524
+在stack執行的順序如下：
+1. console.log(1)進入stack，印出1，清空stack。
+2. setTimeout(() => {console.log(2)}, 0)進入stack，移動到webAPI，等待0秒鐘，移動至callback queue等待。將在stack為空時執行。
+3. console.log(3)進入stack，印出3，清空stack。
+4. setTimeout(() => {console.log(4)}, 0)進入stack，移動到webAPI，等待0秒鐘，移動至callback queue等待。將在stack為空且前一個callback queue執行後執行。
+5. console.log(5)進入stack，印出5，清空stack。
+6. stack清空，even loop處理在callback queue等待的東西，console.log(2)移動至stack。執行，印出2。
+7. stack清空，even loop處理在callback queue等待的東西，console.log(4)移動至stack。執行，印出4。
+
+原則：javascript從上到下，依照順序執行；
+stack有東西先執行，在stack沒東西之後，even loop檢查callback queue是否有東西要執行，因此設立的等待時間並不準確。
+
