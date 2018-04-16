@@ -1,0 +1,169 @@
+<!--hw3：Todo List
+
+之前在第七週時已經讓大家寫過一個 todo list，這次我們要來點不一樣的。
+
+其實有一種寫法非常直覺，而且寫起來非常方便，那就是「只要資料更新，我就全部重新 render」。
+
+什麼意思呢？之前我們寫第七週的作業時，新增的話就是新增一筆資料，然後在 DOM 上面 append，刪除的話就是直接把 DOM 上面的那筆元素刪掉。
+
+可是其實還有另外一種做法，用程式碼示意的話會長這樣：
+
+var list = []
+function addTodo(todo) {
+  list.push(todo)
+  render()
+}
+
+function removeTodo(id) {
+  list = list.filter(item => item.id !== id)
+  render()
+}
+
+function render(){
+  $('.todo-list').empty()
+  $('.todo-list').append(list.map(item => `<li>${todo.content}</li>`)) // 示意
+}
+
+每次只要資料有更新，你就更新資料就好，然後把畫面全部重新渲染。如此一來的好處就是你完全不用管 DOM，你只要更新程式裡面的資料即可。
+
+現在請你把之前實作的 Todo list 改成這種形式，更新資料並且 re-render。
+
+-->
+
+<html>
+	<head>
+		<meta charset="utf-8"/>
+		<!-- Bootstrap CSS -->
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" crossorigin="anonymous">
+	</head>
+	<body>
+		<div class=col-md-5>to do lists
+			<div class="input-group mb-3">
+				<div class="input-group-prepend">
+					<span class="input-group-text" id="inputGroup-sizing-default">新增代辦事項</span>
+				</div>
+				<input type="text" class="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default">
+			</div>
+			
+			<div class="print list-group">
+<!--			<div class="list-group-item">
+					<div class="row">
+						<div class="col-sm-4">買東西</div>
+						<div class="col-sm-2 offset-md-3">
+							<button class="delete btn btn-danger">刪除</button>
+						</div>
+						<div class="col-sm-2">
+							<button class="done btn btn-success">已完成</button>
+						</div>
+					</div>
+				</div>
+
+				<div class="list-group-item">
+					<div class="row">
+						<div class="col-sm-4">煮飯</div>
+						<div class="col-sm-2 offset-md-3">
+							<button class="delete btn btn-danger">刪除</button>
+						</div>				
+						<div class="col-sm-2">
+							<button class="done btn btn-success">已完成</button>
+						</div>
+					</div>
+				</div>-->
+			</div>
+		</div>
+		
+		
+		<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" crossorigin="anonymous"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" crossorigin="anonymous"></script>
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+		<script>
+			var list = [];			
+			$(document).ready(function(){
+				
+				//新增代辦事項				
+				$('.form-control').keydown(function(event){	
+					if (event.key==="Enter"){
+						//將物件放入到陣列[i]當中
+						list.push({
+							todo:$('input').val(),
+							situation:"unfinished",					
+						})							
+						render();		
+					}				
+				})				
+				
+				//移除代辦事項
+				$('.list-group').on('click','.btn-danger', function(event){
+					//找到組別
+					var target_group = $(event.target).parents('.list-group-item');
+					//找順序組別index，.index()
+					var index = $('.list-group-item').index(target_group);
+					console.log(index);
+					//將陣列中的內容刪除
+					list = list.filter((item,i) => i !== index)	//.filter(selector) ((item, i) => i !== index)
+																	//=> 箭頭函式 item => item.id !== index
+					render()
+				})
+				
+				//改變完成與否
+				$('.list-group').on('click','.done', function(event){
+
+					//找到組別
+					var target_group = $(event.target).parents('.list-group-item');
+					//找組別順序index，.index()
+					var index = $('.list-group-item').index(target_group);
+					console.log (index);
+
+					if($(event.target).hasClass('btn-success')){
+						list[index].situation ='unfinished';
+					}
+					if ($(event.target).hasClass('btn-primary')){
+						list[index].situation ='finished';
+					}
+					console.log (index, list);
+					render();
+				})
+			})
+				
+			function render(){
+				$('.list-group').empty();					
+				for(var i=0; i<list.length; i++){	//若寫成i<=list.length會多算一個
+					if (list[i].situation==="finished"){ 	//list[i].situation也可以寫成list[i][situation]
+						$('.list-group').append(`
+						<!--jquery的插入語法： .append()/.prepend() 在$('')的下一層插入; .after()/.before() 在在$('')之前或之後插入，同一層-->
+						<!--插入變數 錢+大括號 Template Tag-->
+							<div class="list-group-item list-group-item-success">
+								<div class="row">
+									<div class="col-sm-4"> ${list[i].todo} </div>	
+									<div class="col-sm-2 offset-md-3">
+										<button class="delete btn btn-danger">刪除</button>
+									</div>
+									<div class="col-sm-2">
+										<button class="done btn btn-success">已完成</button>
+									</div>
+								</div>
+							</div>`)
+					}
+					else{
+						$('.list-group').append(`	
+							<div class="list-group-item">
+								<div class="row">
+									<div class="col-sm-4">${list[i].todo}</div>
+									<div class="col-sm-2 offset-md-3">
+										<button class="delete btn btn-danger">刪除</button>
+									</div>				
+									<div class="col-sm-2">
+										<button class="done btn btn-primary">尚未完成</button>
+									</div>
+								</div>
+							</div>
+						`)
+					}
+				}
+				$('.form-control').val('');
+			}
+
+		</script>
+	</body>
+</html>
+
