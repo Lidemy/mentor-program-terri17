@@ -1,0 +1,1 @@
+"use strict";var materials=["Hydrogen","Helium","Lithium","Beryllium"];console.log(materials.map(function(e){return e.length}));
