@@ -5,3 +5,16 @@ describe("hw2", () => {
     expect(capitalize('nick')).toBe('Nick')
   })
 })
+
+describe("hw2", () => {
+  it("should return correct answer when str = Nick", () => {
+    expect(capitalize('Nick')).toBe('Nick')
+  })
+})
+
+describe("hw2", () => {
+  it("should return correct answer when str = ,hello", () => {
+    expect(capitalize(',hello')).toBe(',hello')
+  })
+})
+
